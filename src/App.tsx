@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import LoadingScreen from './components/LoadingScreen';
-import Hero from './components/Hero';
-import About from './components/About';
-import Services from './components/Services';
-import Projects from './components/Projects';
-import Contact from './components/Contact';
+import Navbar from './components/Navbar';
+import Home from './pages/Home';
+import About from './pages/About';
+import Services from './pages/Services';
+import Contact from './pages/Contact';
+import Admin from './pages/Admin';
 import Footer from './components/Footer';
 
 function App() {
@@ -15,7 +17,6 @@ function App() {
   };
 
   useEffect(() => {
-    // Smooth scrolling for the entire page
     document.documentElement.style.scrollBehavior = 'smooth';
     
     return () => {
@@ -24,18 +25,23 @@ function App() {
   }, []);
 
   return (
-    <div className="relative">
-      {isLoading && <LoadingScreen onLoadingComplete={handleLoadingComplete} />}
-      
-      <div className={`${isLoading ? 'opacity-0' : 'opacity-100'} transition-opacity duration-1000`}>
-        <Hero />
-        <About />
-        <Services />
-        <Projects />
-        <Contact />
-        <Footer />
+    <Router>
+      <div className="relative">
+        {isLoading && <LoadingScreen onLoadingComplete={handleLoadingComplete} />}
+        
+        <div className={`${isLoading ? 'opacity-0' : 'opacity-100'} transition-opacity duration-1000`}>
+          <Navbar />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/services" element={<Services />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/admin" element={<Admin />} />
+          </Routes>
+          <Footer />
+        </div>
       </div>
-    </div>
+    </Router>
   );
 }
 
